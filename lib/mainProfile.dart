@@ -9,16 +9,24 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  String _userName = "John Doe";
-  String _userPhone = "(510)666-1337";
-  String _userEmail = "johndoe@doejohn.com";
-  String _userAbout =
-      "Hello I am a johndoe nice 2 meet u mlady yes I like fedoras";
+  String _userName = "";
+  String _userPhone = "";
+  String _userEmail = "";
+  String _userAbout = "";
 
   void setUserName(String validName) {
     setState(() {
       _userName = validName;
     });
+  }
+
+  String nameValidator(String value) {
+    RegExp nameREGEX = RegExp(r"[a-zA-Z]+\s[a-zA-Z]+");
+
+    if (value == null || nameREGEX.allMatches(value).length != 1) {
+      return "Please enter your first and last name";
+    }
+    return null;
   }
 
   void setUserPhone(String validPhone) {
@@ -27,10 +35,31 @@ class _ProfileViewState extends State<ProfileView> {
     });
   }
 
+  String phoneValidator(String value) {
+    RegExp phoneREGEX = RegExp(r"\([0-9]{3}\)[0-9]{3}-[0-9]{4}");
+    if (value == null ||
+        phoneREGEX.allMatches(value).length != 1 ||
+        value.split(" ").length > 1) {
+      return "Please enter a valid phone number following (XXX)XXX-XXXX";
+    }
+    return null;
+  }
+
   void setUserEmail(String validEmail) {
     setState(() {
       _userEmail = validEmail;
     });
+  }
+
+  String emailValidator(String value) {
+    RegExp emailREGEX = RegExp(r"[\w.]+@[a-z]+.[a-z]{3}");
+
+    if (value == null ||
+        emailREGEX.allMatches(value).length != 1 ||
+        value.split(" ").length > 1) {
+      return "Please enter a valid email address";
+    }
+    return null;
   }
 
   void setUserAbout(String validAbout) {
@@ -39,11 +68,13 @@ class _ProfileViewState extends State<ProfileView> {
     });
   }
 
-  void emptyValidator(String value) {
+  String aboutValidator(String value) {
+    if (value == null) {
+      return "Please enter some text";
+    }
     return null;
   }
 
-  //widget meant for base class
   Widget profileField(String fieldName, String fieldValue, int lines,
       userField fieldVal, BuildContext context) {
     return Container(
@@ -85,14 +116,9 @@ class _ProfileViewState extends State<ProfileView> {
                                 setField: setUserAbout,
                                 fieldHint: "Tell us about you!",
                                 title: "Write a little bit about yourself",
-                                fieldValidator: emptyValidator,
+                                fieldValidator: aboutValidator,
                                 lines: 5)));
 
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             AboutEditView(setAbout: setUserAbout)));
                     break;
                   case userField.EMAIL:
                     Navigator.push(
@@ -102,7 +128,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 setField: setUserEmail,
                                 fieldHint: "ex: bob@gmail.com",
                                 title: "Enter your email address",
-                                fieldValidator: emptyValidator,
+                                fieldValidator: emailValidator,
                                 lines: 1)));
                     break;
                   case userField.NAME:
@@ -113,7 +139,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 setField: setUserName,
                                 fieldHint: "ex: John Doe",
                                 title: "Enter your name",
-                                fieldValidator: emptyValidator,
+                                fieldValidator: nameValidator,
                                 lines: 1)));
                     break;
                   case userField.PHONE:
@@ -124,7 +150,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 setField: setUserPhone,
                                 fieldHint: "(XXX)XXX-XXXX",
                                 title: "Enter your phone number",
-                                fieldValidator: emptyValidator,
+                                fieldValidator: phoneValidator,
                                 lines: 1)));
 
                     break;
