@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+import 'dart:io';
 import 'editViews.dart';
 
 enum userField { NAME, PHONE, EMAIL, ABOUT }
@@ -40,7 +43,7 @@ class _ProfileViewState extends State<ProfileView> {
     if (value == null ||
         phoneREGEX.allMatches(value).length != 1 ||
         value.split(" ").length > 1) {
-      return "Please enter a valid phone number following (XXX)XXX-XXXX";
+      return "Please use the format (XXX)XXX-XXXX";
     }
     return null;
   }
@@ -69,7 +72,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   String aboutValidator(String value) {
-    if (value == null) {
+    if (value == null || value.length == 0) {
       return "Please enter some text";
     }
     return null;
@@ -98,7 +101,10 @@ class _ProfileViewState extends State<ProfileView> {
                         overflow: TextOverflow.ellipsis,
                         text: TextSpan(
                           text: fieldValue,
-                          style: TextStyle(color: Colors.black, fontSize: 18),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500),
                         )))
               ],
             )),
@@ -164,16 +170,11 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Profile',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Material(
-          child: Column(
+    return Material(
+      child: Column(
         children: <Widget>[
           applicationTitle(),
-          profilePictureContainer(),
+          ProfileImageView(name: _userName),
           profileField("Name", _userName, 1, userField.NAME, context),
           Divider(
             thickness: 2,
@@ -194,7 +195,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
           profileField("About", _userAbout, 3, userField.ABOUT, context)
         ],
-      )),
+      ),
     );
   }
 }
@@ -223,4 +224,75 @@ Widget profilePictureContainer() {
           shape: CircleBorder(), color: Colors.grey.withOpacity(0.3)),
     ),
   );
+}
+
+class ProfileImageView extends StatefulWidget {
+  final String name;
+
+  final picker = ImagePicker();
+
+  ProfileImageView({Key key, @required this.name});
+
+  @override
+  _ProfileImageViewState createState() => _ProfileImageViewState();
+}
+
+class _ProfileImageViewState extends State<ProfileImageView> {
+  File _file;
+
+  void setImage(File file) {
+    setState(() {
+      _file = file;
+    });
+  }
+
+  void deleteImage() {
+    setState(() {
+      _file = null;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var nameSeperated = widget.name.split(" ");
+    String initials =
+        widget.name == "" ? "" : nameSeperated[0][0] + nameSeperated[1][0];
+
+    return Center(
+        child: Stack(
+      alignment: Alignment.bottomRight,
+      children: <Widget>[
+        Container(
+            margin: EdgeInsets.all(10),
+            width: 175,
+            height: 175,
+            decoration: ShapeDecoration(
+                shape: CircleBorder(
+                    side: BorderSide(
+                        color: Colors.grey.withOpacity(0.2), width: 10))),
+            child: CircleAvatar(
+              backgroundImage:
+                  _file == null ? null : new AssetImage(_file.path),
+              child: Text(
+                widget.name == null || _file != null
+                    ? ""
+                    : initials.toUpperCase(),
+                style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+              ),
+            )),
+        IconButton(
+          icon: Icon(Icons.add_a_photo),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfilePictureEditView(
+                        setProfilePic: setImage,
+                        deleteCurrentPic: deleteImage,
+                        currentImage: _file)));
+          },
+        ),
+      ],
+    ));
+  }
 }
