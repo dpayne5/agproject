@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'dart:io';
@@ -19,7 +20,11 @@ class _ProfileViewState extends State<ProfileView> {
 
   void setUserName(String validName) {
     setState(() {
-      _userName = validName;
+      var names = validName.split(" ");
+      names[0] = names[0][0].toUpperCase() + names[0].substring(1);
+      names[1] = names[1][0].toUpperCase() + names[1].substring(1);
+
+      _userName = names.join(" ");
     });
   }
 
@@ -123,7 +128,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 fieldHint: "Tell us about you!",
                                 title: "Write a little bit about yourself",
                                 fieldValidator: aboutValidator,
-                                lines: 5)));
+                                lines: 3)));
 
                     break;
                   case userField.EMAIL:
@@ -171,6 +176,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Material(
+        child: SingleChildScrollView(
       child: Column(
         children: <Widget>[
           applicationTitle(),
@@ -196,7 +202,7 @@ class _ProfileViewState extends State<ProfileView> {
           profileField("About", _userAbout, 3, userField.ABOUT, context)
         ],
       ),
-    );
+    ));
   }
 }
 
@@ -205,13 +211,11 @@ Widget applicationTitle() {
       padding: EdgeInsets.fromLTRB(20, 25, 20, 10),
       child: RichText(
           text: TextSpan(
-        text: "Profile",
-        style: TextStyle(
-            color: Colors.blueAccent,
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2.0),
-      )));
+              text: "Edit Profile",
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 36,
+                  fontWeight: FontWeight.w400))));
 }
 
 Widget profilePictureContainer() {
@@ -271,13 +275,17 @@ class _ProfileImageViewState extends State<ProfileImageView> {
                     side: BorderSide(
                         color: Colors.grey.withOpacity(0.2), width: 10))),
             child: CircleAvatar(
+              backgroundColor: Colors.grey.withOpacity(0.1),
               backgroundImage:
                   _file == null ? null : new AssetImage(_file.path),
               child: Text(
                 widget.name == null || _file != null
                     ? ""
                     : initials.toUpperCase(),
-                style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black.withOpacity(0.6)),
               ),
             )),
         IconButton(
@@ -287,9 +295,11 @@ class _ProfileImageViewState extends State<ProfileImageView> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ProfilePictureEditView(
-                        setProfilePic: setImage,
-                        deleteCurrentPic: deleteImage,
-                        currentImage: _file)));
+                          setProfilePic: setImage,
+                          deleteCurrentPic: deleteImage,
+                          currentImage: _file,
+                          initials: initials,
+                        )));
           },
         ),
       ],

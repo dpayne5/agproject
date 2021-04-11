@@ -29,89 +29,95 @@ class _UserFieldEditViewState extends State<UserFieldEditView> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
+            // resizeToAvoidBottomInset: false,
             body: SafeArea(
-                child: Column(children: <Widget>[
-      Padding(
-          padding: EdgeInsets.fromLTRB(5, 20, 5, 0),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          )),
-      Padding(
-        padding: EdgeInsets.all(30),
-        child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
-          Center(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
-                        child: Text(
-                          widget.title ?? "",
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        )),
-                    TextFormField(
-                      maxLines: widget.lines,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: widget.fieldHint ?? "",
-                          hintStyle: TextStyle(color: Colors.grey)),
-                      controller: fieldFormValue,
-                      validator: (value) => widget.fieldValidator(value),
-                    ),
-                  ]),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-                      child: Container(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.black)),
-                            onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                widget.setField(fieldFormValue.text);
-                                Navigator.pop(context);
-                              }
-                            },
-                            child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  "Update",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400),
-                                )),
-                          )))
-                ],
-              ),
-            ),
+                child: SingleChildScrollView(
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+          Padding(
+              padding: EdgeInsets.fromLTRB(5, 20, 5, 0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              )),
+          Padding(
+            padding: EdgeInsets.all(30),
+            child: Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
+              Center(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(children: <Widget>[
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(0, 40, 0, 50),
+                            child: Text(
+                              widget.title ?? "",
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            )),
+                        TextFormField(
+                          maxLines: widget.lines,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: widget.fieldHint ?? "",
+                              hintStyle: TextStyle(color: Colors.grey)),
+                          controller: fieldFormValue,
+                          validator: (value) => widget.fieldValidator(value),
+                        ),
+                      ]),
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                          child: Container(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.black)),
+                                onPressed: () {
+                                  if (_formKey.currentState.validate()) {
+                                    widget.setField(fieldFormValue.text);
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                child: Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      "Update",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400),
+                                    )),
+                              )))
+                    ],
+                  ),
+                ),
+              )
+            ]),
           )
-        ]),
-      )
-    ]))));
+        ])))));
   }
 }
 
 class ProfilePictureEditView extends StatefulWidget {
   final Function setProfilePic;
   final Function deleteCurrentPic;
+  final String initials;
   File currentImage;
 
   ProfilePictureEditView(
       {Key key,
       @required this.setProfilePic,
       @required this.deleteCurrentPic,
-      @required this.currentImage});
+      @required this.currentImage,
+      @required this.initials});
   @override
   _ProfilePictureEditViewState createState() => _ProfilePictureEditViewState();
 }
@@ -189,7 +195,14 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
                             color: Colors.grey.withOpacity(0.1)),
                         width: 175,
                         height: 175,
-                      )
+                        child: Center(
+                            child: Text(
+                          widget.initials,
+                          style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black.withOpacity(0.6)),
+                        )))
                     : Container(
                         width: 175,
                         height: 175,
@@ -239,12 +252,6 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
                                 fontSize: 20, fontWeight: FontWeight.w400),
                           )),
                     )))
-            // ElevatedButton(
-            //     onPressed: () {
-            //       widget.setProfilePic(_image);
-            //       Navigator.pop(context);
-            //     },
-            //     child: Text("quick return"))
           ],
         ),
       )
