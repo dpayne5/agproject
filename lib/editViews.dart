@@ -127,8 +127,11 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
 
   File _image;
 
+  bool userHasEdited = false;
+
   void removeThisImage() {
     setState(() {
+      userHasEdited = true;
       _image = null;
       widget.currentImage = null;
     });
@@ -140,7 +143,7 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
     _cropImage(pickedFile.path);
   }
 
-  _cropImage(filePath) async {
+  Future<Null> _cropImage(filePath) async {
     File croppedImage = await ImageCropper.cropImage(
         sourcePath: filePath,
         maxWidth: 175,
@@ -148,6 +151,7 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
         cropStyle: CropStyle.circle);
 
     setState(() {
+      userHasEdited = true;
       if (croppedImage != null) {
         _image = croppedImage;
       } else {
@@ -212,9 +216,12 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
                                     color: Colors.grey.withOpacity(0.2),
                                     width: 10))),
                         child: CircleAvatar(
-                          backgroundImage: new AssetImage(_image == null
-                              ? widget.currentImage.path
-                              : _image.path),
+                          backgroundImage: FileImage(
+                              _image == null ? widget.currentImage : _image),
+
+                          // new AssetImage(_image == null
+                          //     ? widget.currentImage.path
+                          //     : _image.path),
                         ),
                       )
                 // Image.file(_image),
@@ -241,7 +248,7 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
                           backgroundColor:
                               MaterialStateProperty.all(Colors.black)),
                       onPressed: () {
-                        widget.setProfilePic(_image);
+                        widget.setProfilePic(_image, userHasEdited);
                         Navigator.pop(context);
                       },
                       child: Padding(

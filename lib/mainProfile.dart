@@ -244,10 +244,15 @@ class ProfileImageView extends StatefulWidget {
 class _ProfileImageViewState extends State<ProfileImageView> {
   File _file;
 
-  void setImage(File file) {
-    setState(() {
-      _file = file;
-    });
+  void setImage(File file, bool userDidEdit) {
+    if (userDidEdit) {
+      setState(() {
+        _file = file;
+      });
+    }
+    // setState(() {
+    //   _file = file;
+    // });
   }
 
   void deleteImage() {
@@ -276,8 +281,8 @@ class _ProfileImageViewState extends State<ProfileImageView> {
                         color: Colors.grey.withOpacity(0.2), width: 10))),
             child: CircleAvatar(
               backgroundColor: Colors.grey.withOpacity(0.1),
-              backgroundImage:
-                  _file == null ? null : new AssetImage(_file.path),
+              backgroundImage: _file == null ? null : FileImage(_file),
+              // new AssetImage(_file.path),
               child: Text(
                 widget.name == null || _file != null
                     ? ""
