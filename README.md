@@ -1,7 +1,5 @@
 # AGproject
 
----
-
 ### Quick Overview
 
 This is a take home coding project for the Junior Software Engineering position @ _Company_.
