@@ -28,13 +28,13 @@ class _UserFieldEditViewState extends State<UserFieldEditView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
             // resizeToAvoidBottomInset: false,
             body: SafeArea(
                 child: SingleChildScrollView(
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
+                    child: Column(mainAxisSize: MainAxisSize.min, children: <
+                        Widget>[
           Padding(
               padding: EdgeInsets.fromLTRB(5, 20, 5, 0),
               child: Align(
@@ -60,11 +60,11 @@ class _UserFieldEditViewState extends State<UserFieldEditView> {
                             padding: EdgeInsets.fromLTRB(0, 40, 0, 50),
                             child: Text(
                               widget.title ?? "",
-                              style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold),
+                              style: editHeadingText,
                             )),
                         TextFormField(
                           maxLines: widget.lines,
+                          autocorrect: false,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: widget.fieldHint ?? "",
@@ -87,14 +87,7 @@ class _UserFieldEditViewState extends State<UserFieldEditView> {
                                     Navigator.pop(context);
                                   }
                                 },
-                                child: Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Text(
-                                      "Update",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w400),
-                                    )),
+                                child: updateButtonText,
                               )))
                     ],
                   ),
@@ -163,105 +156,110 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
             body: SafeArea(
                 child: Column(children: <Widget>[
-      Padding(
-          padding: EdgeInsets.fromLTRB(5, 20, 5, 0),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          )),
-      Padding(
-        padding: EdgeInsets.all(30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
-                child: Text(
-                  "Change your profile picture",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                )),
-            Center(
-                child: _image == null && widget.currentImage == null
-                    ? Container(
-                        decoration: ShapeDecoration(
-                            shape: CircleBorder(
-                                side: BorderSide(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    width: 10)),
-                            color: Colors.grey.withOpacity(0.1)),
-                        width: 175,
-                        height: 175,
-                        child: Center(
-                            child: Text(
-                          widget.initials,
-                          style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(0.6)),
-                        )))
-                    : Container(
-                        width: 175,
-                        height: 175,
-                        decoration: ShapeDecoration(
-                            shape: CircleBorder(
-                                side: BorderSide(
-                                    color: Colors.grey.withOpacity(0.2),
-                                    width: 10))),
-                        child: CircleAvatar(
-                          backgroundImage: FileImage(
-                              _image == null ? widget.currentImage : _image),
-
-                          // new AssetImage(_image == null
-                          //     ? widget.currentImage.path
-                          //     : _image.path),
-                        ),
-                      )
-                // Image.file(_image),
+          Padding(
+              padding: EdgeInsets.fromLTRB(5, 20, 5, 0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
-            IntrinsicWidth(
-                child: Row(
-              children: <Widget>[
-                IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      removeThisImage();
-                      widget.deleteCurrentPic();
-                    }),
-                IconButton(icon: Icon(Icons.photo_album), onPressed: getImage),
-              ],
-            )),
-            // IconButton(icon: Icon(Icons.photo_album), onPressed: getImage),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: Container(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.black)),
-                      onPressed: () {
-                        widget.setProfilePic(_image, userHasEdited);
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            "Update",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w400),
+              )),
+          Padding(
+            padding: EdgeInsets.all(30),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                    padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
+                    child: Text(
+                      "Change your profile picture",
+                      style: editHeadingText,
+                    )),
+                Center(
+                    child: _image == null && widget.currentImage == null
+                        ? Container(
+                            decoration: ShapeDecoration(
+                                shape: CircleBorder(side: profileBorder),
+                                color: profileInnerColor),
+                            width: 175,
+                            height: 175,
+                            child:
+                                Center(child: profileInitials(widget.initials)))
+                        : Container(
+                            width: 175,
+                            height: 175,
+                            decoration: ShapeDecoration(
+                                shape: CircleBorder(side: profileBorder)),
+                            child: CircleAvatar(
+                              backgroundImage: FileImage(_image == null
+                                  ? widget.currentImage
+                                  : _image),
+                            ),
                           )),
-                    )))
-          ],
-        ),
-      )
-    ]))));
+                IntrinsicWidth(
+                    child: Row(
+                  children: <Widget>[
+                    IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          removeThisImage();
+                          widget.deleteCurrentPic();
+                        }),
+                    IconButton(
+                        icon: Icon(Icons.photo_album), onPressed: getImage),
+                  ],
+                )),
+                Padding(
+                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.black)),
+                          onPressed: () {
+                            widget.setProfilePic(_image, userHasEdited);
+                            Navigator.pop(context);
+                          },
+                          child: updateButtonText,
+                        )))
+              ],
+            ),
+          )
+        ]))));
   }
 }
+
+Padding updateButtonText = Padding(
+    padding: EdgeInsets.all(10),
+    child: Text(
+      "Update",
+      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+    ));
+
+/*NOTE: having issues with hot reload not correctly updating when I put the
+        below functions into their own file. So its duplicate code here and
+        in editViews until I look into it. */
+
+BorderSide profileBorder =
+    BorderSide(color: Colors.grey.withOpacity(0.4), width: 10);
+
+Color profileInnerColor = Colors.grey.withOpacity(0.1);
+
+Text profileInitials(String initials) {
+  return Text(initials,
+      style: TextStyle(
+          fontSize: 36,
+          fontWeight: FontWeight.bold,
+          color: Colors.black.withOpacity(0.6)));
+}
+
+TextStyle editHeadingText =
+    TextStyle(fontSize: 24, fontWeight: FontWeight.bold);

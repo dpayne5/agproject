@@ -60,7 +60,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   String emailValidator(String value) {
-    RegExp emailREGEX = RegExp(r"[\w.]+@[a-z]+.[a-z]{3}");
+    RegExp emailREGEX = RegExp(r"[\w.]+@[a-z]+.[a-z]{2,3}");
 
     if (value == null ||
         emailREGEX.allMatches(value).length != 1 ||
@@ -218,18 +218,6 @@ Widget applicationTitle() {
                   fontWeight: FontWeight.w400))));
 }
 
-Widget profilePictureContainer() {
-  return Center(
-    child: Container(
-      margin: EdgeInsets.all(20),
-      width: 125,
-      height: 125,
-      decoration: ShapeDecoration(
-          shape: CircleBorder(), color: Colors.grey.withOpacity(0.3)),
-    ),
-  );
-}
-
 class ProfileImageView extends StatefulWidget {
   final String name;
 
@@ -250,9 +238,6 @@ class _ProfileImageViewState extends State<ProfileImageView> {
         _file = file;
       });
     }
-    // setState(() {
-    //   _file = file;
-    // });
   }
 
   void deleteImage() {
@@ -275,24 +260,14 @@ class _ProfileImageViewState extends State<ProfileImageView> {
             margin: EdgeInsets.all(10),
             width: 175,
             height: 175,
-            decoration: ShapeDecoration(
-                shape: CircleBorder(
-                    side: BorderSide(
-                        color: Colors.grey.withOpacity(0.2), width: 10))),
+            decoration:
+                ShapeDecoration(shape: CircleBorder(side: profileBorder)),
             child: CircleAvatar(
-              backgroundColor: Colors.grey.withOpacity(0.1),
-              backgroundImage: _file == null ? null : FileImage(_file),
-              // new AssetImage(_file.path),
-              child: Text(
-                widget.name == null || _file != null
-                    ? ""
-                    : initials.toUpperCase(),
-                style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black.withOpacity(0.6)),
-              ),
-            )),
+                backgroundColor: profileInnerColor,
+                backgroundImage: _file == null ? null : FileImage(_file),
+                child: widget.name == null || _file != null
+                    ? Text("")
+                    : profileInitials(initials))),
         IconButton(
           icon: Icon(Icons.add_a_photo),
           onPressed: () {
@@ -310,4 +285,21 @@ class _ProfileImageViewState extends State<ProfileImageView> {
       ],
     ));
   }
+}
+
+/*NOTE: having issues with hot reload not correctly updating when I put the
+        below functions into their own file. So its duplicate code here and
+        in editViews until I look into it. */
+
+BorderSide profileBorder =
+    BorderSide(color: Colors.grey.withOpacity(0.4), width: 10);
+
+Color profileInnerColor = Colors.grey.withOpacity(0.1);
+
+Text profileInitials(String initials) {
+  return Text(initials,
+      style: TextStyle(
+          fontSize: 36,
+          fontWeight: FontWeight.bold,
+          color: Colors.black.withOpacity(0.6)));
 }
