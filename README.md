@@ -11,4 +11,7 @@ The project task is to create a mobile application that has the functionality of
 
 This targets both iOS and Android devices. To run this you need to install [Flutter](https://flutter.dev/docs/get-started/install). Follow the getting started guide for your operating system, which includes sections on iOS and Android setup.
 
+- For iOS, open simulator with `open -a simulator` then from the command line do `flutter run`.
+- For Android, open the emulator through Android Studio then from the command line run `flutter run`.
+
 **Using Images:** To use your own images for profile pictures, simply drag and drop them into iOS simulator/Android emulator. They should be available in Photos/downloads respectively.
