@@ -11,26 +11,31 @@ class UserFieldEditView extends StatefulWidget {
   final int lines;
 
   UserFieldEditView(
-      {Key key,
-      @required this.setField,
+      {@required this.setField,
       @required this.fieldHint,
       @required this.title,
       @required this.fieldValidator,
-      @required this.lines})
-      : super(key: key);
+      @required this.lines});
   @override
   _UserFieldEditViewState createState() => _UserFieldEditViewState();
 }
 
 class _UserFieldEditViewState extends State<UserFieldEditView> {
   final _formKey = GlobalKey<FormState>();
+
   TextEditingController fieldFormValue = TextEditingController();
+
+  @override
+  dispose() {
+    fieldFormValue.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-            // resizeToAvoidBottomInset: false,
             body: SafeArea(
                 child: SingleChildScrollView(
                     child: Column(mainAxisSize: MainAxisSize.min, children: <
@@ -84,6 +89,7 @@ class _UserFieldEditViewState extends State<UserFieldEditView> {
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
                                     widget.setField(fieldFormValue.text);
+
                                     Navigator.pop(context);
                                   }
                                 },
@@ -133,6 +139,10 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
+    if (pickedFile == null) {
+      return;
+    }
+
     _cropImage(pickedFile.path);
   }
 
@@ -148,7 +158,7 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
       if (croppedImage != null) {
         _image = croppedImage;
       } else {
-        print("no img");
+        print("no selected image");
       }
     });
   }
@@ -198,6 +208,8 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
                             decoration: ShapeDecoration(
                                 shape: CircleBorder(side: profileBorder)),
                             child: CircleAvatar(
+                              foregroundColor: profileInnerColor,
+                              backgroundColor: profileInnerColor,
                               backgroundImage: FileImage(_image == null
                                   ? widget.currentImage
                                   : _image),

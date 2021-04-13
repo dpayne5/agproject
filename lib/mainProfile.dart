@@ -263,6 +263,7 @@ class _ProfileImageViewState extends State<ProfileImageView> {
             decoration:
                 ShapeDecoration(shape: CircleBorder(side: profileBorder)),
             child: CircleAvatar(
+                foregroundColor: profileInnerColor,
                 backgroundColor: profileInnerColor,
                 backgroundImage: _file == null ? null : FileImage(_file),
                 child: widget.name == null || _file != null

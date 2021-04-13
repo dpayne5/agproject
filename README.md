@@ -1,14 +1,12 @@
 # AGproject
 
-iOS and Android Screenshots
----
+## iOS and Android Screenshots
+
 <div>
-<img src="https://draftbucket.s3.us-east-2.amazonaws.com/frodo_nopic.png" alt="iOS1" width="200" height="400"/>
-<img src="https://draftbucket.s3.us-east-2.amazonaws.com/frodo_withpic.png" alt="iOS2" width="200" height="400"/>
-<img src="https://draftbucket.s3.us-east-2.amazonaws.com/androidAG.png" alt="iOS2" width="200" height="400"/>
-<img src="https://draftbucket.s3.us-east-2.amazonaws.com/androidImageCropperAG.png" alt="iOS2" width="200" height="400"/></div>
-
-
+<img src="https://draftbucket.s3.us-east-2.amazonaws.com/frodo_nopic.png" alt="iOS1" width="225" height="450"/>
+<img src="https://draftbucket.s3.us-east-2.amazonaws.com/frodo_withpic.png" alt="iOS2" width="225" height="450"/>
+<img src="https://draftbucket.s3.us-east-2.amazonaws.com/androidAG.png" alt="iOS2" width="225" height="450"/>
+<img src="https://draftbucket.s3.us-east-2.amazonaws.com/androidImageCropperAG.png" alt="iOS2" width="225" height="450"/></div>
 
 ### Quick Overview
 
@@ -25,3 +23,8 @@ This targets both iOS and Android devices. To run this you need to install [Flut
 - For Android, open the emulator through Android Studio then from the command line run `flutter run`.
 
 **Using Images:** To use your own images for profile pictures, simply drag and drop them into iOS simulator/Android emulator. They should be available in Photos/downloads respectively.
+
+### Issues
+
+- If you are getting a CodeSigning error with iOS simulator, run `flutter clean` then `flutter run`.
+- If you can't exit the ImagePicker view with swipe gestures on Android Physical devices, switch to 3 way navigation in settings.
