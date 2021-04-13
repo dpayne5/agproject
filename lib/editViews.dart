@@ -137,7 +137,9 @@ class _ProfilePictureEditViewState extends State<ProfilePictureEditView> {
   }
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+    );
 
     if (pickedFile == null) {
       return;
