@@ -2,7 +2,7 @@
 
 ## Quick Overview
 
-This is a take home coding project for the Junior Software Engineering position @ _Company_.
+This is a take home coding project for a Junior Software Engineering position.
 I chose to create this in Flutter since I was told in the interview if Flutter could be used for work projects then I'd be baptized in it.
 
 The project is to create a mobile application that has the functionality of a profile page, following the UI guide [here](https://xd.adobe.com/view/58778ee1-0bc4-40d9-55fb-cea5b22ab1c8-2e46/). For the profile picture functionality I am using the image_cropper and image_picker packages.
