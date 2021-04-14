@@ -3,9 +3,9 @@
 ## Quick Overview
 
 This is a take home coding project for the Junior Software Engineering position @ _Company_.
-I chose to create this in Flutter since I was told in the interview if it could be used for work projects then I'd be baptized in it.
+I chose to create this in Flutter since I was told in the interview if Flutter could be used for work projects then I'd be baptized in it.
 
-The project task is to create a mobile application that has the functionality of a profile page, following the UI guide [here](https://xd.adobe.com/view/58778ee1-0bc4-40d9-55fb-cea5b22ab1c8-2e46/). For the profile picture functionality I am using the image_cropper and image_picker packages.
+The project is to create a mobile application that has the functionality of a profile page, following the UI guide [here](https://xd.adobe.com/view/58778ee1-0bc4-40d9-55fb-cea5b22ab1c8-2e46/). For the profile picture functionality I am using the image_cropper and image_picker packages.
 
 ## iOS
 
@@ -34,7 +34,7 @@ Open the iOS simulator with `open -a simulator` then from the command line run `
 
 ### Running the project
 
-While the project runs as intended on the emulator and my physical device (moto e XT2052DL) the emulator debugger spits out a handful of warning messages which are detailed below. I am not sure how to resolve these, I'd be grateful for any feedback you all have about it.
+While the project runs as intended on the emulator and my physical device (moto e XT2052DL) the emulator debugger spits out a handful of warning messages which are detailed below. I am not sure how to resolve these, and I'd be grateful for any feedback you all have about it.
 
 To use your own images for profile pictures, drag and drop them into the emulator. They should be available in Downloads.
 
